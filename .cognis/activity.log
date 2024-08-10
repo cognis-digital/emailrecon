@@ -1,3 +1,4 @@
 2024-06-10T17:57:27  docs(fixtures): guard against ReDoS in patterns
 2024-06-24T12:14:34  test(engine): add a dry-run flag
 2024-07-08T19:31:41  ci(ci): handle empty and malformed input
+2024-08-10T14:48:48  fix(format): load rules lazily for faster startup
