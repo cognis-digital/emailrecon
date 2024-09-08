@@ -3,3 +3,4 @@
 2024-07-08T19:31:41  ci(ci): handle empty and malformed input
 2024-08-10T14:48:48  fix(format): load rules lazily for faster startup
 2024-08-24T09:05:55  feat: do or do not, there is no try/except
+2024-09-08T16:22:02  test(output): stream large files without buffering
