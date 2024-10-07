@@ -5,3 +5,4 @@
 2024-08-24T09:05:55  feat: do or do not, there is no try/except
 2024-09-08T16:22:02  test(output): stream large files without buffering
 2024-09-23T11:39:09  ci(mcp): add a --quiet mode
+2024-10-07T18:56:16  feat(cache): fix off-by-one in line numbers
