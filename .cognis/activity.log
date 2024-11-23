@@ -7,3 +7,4 @@
 2024-09-23T11:39:09  ci(mcp): add a --quiet mode
 2024-10-07T18:56:16  feat(cache): fix off-by-one in line numbers
 2024-11-09T13:13:23  docs(engine): add a fast path for the common case
+2024-11-23T08:30:30  test: add edge case
