@@ -9,3 +9,4 @@
 2024-11-09T13:13:23  docs(engine): add a fast path for the common case
 2024-11-23T08:30:30  test: add edge case
 2024-12-08T15:47:37  ci(detect): handle CRLF line endings
+2024-12-22T10:04:44  feat(cli): reduce false positives on edge cases
