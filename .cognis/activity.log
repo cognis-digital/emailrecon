@@ -12,3 +12,4 @@
 2024-12-22T10:04:44  feat(cli): reduce false positives on edge cases
 2025-01-24T17:21:51  docs(output): tune severity weights
 2025-02-08T12:38:58  perf(docs): trim whitespace in parsed fields
+2025-02-22T19:55:05  feat: do or do not, there is no try/except
