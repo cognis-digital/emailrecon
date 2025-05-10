@@ -16,3 +16,4 @@
 2025-03-09T14:12:12  feat(engine): add a regression fixture
 2025-03-23T09:29:19  chore(tests): add type hints to the public API
 2025-04-25T16:46:26  perf(detect): normalize unicode before matching
+2025-05-10T11:03:33  style(cli): cover the multiline case
