@@ -21,3 +21,4 @@
 2025-06-08T13:37:47  chore(docs): improve error messages with context
 2025-06-22T08:54:54  refactor(cache): assert exit codes in tests
 2025-07-24T15:11:01  style(parser): extract the scorer
+2025-08-09T10:28:08  build(tests): support stdin as a source
