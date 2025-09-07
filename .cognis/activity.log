@@ -23,3 +23,4 @@
 2025-07-24T15:11:01  style(parser): extract the scorer
 2025-08-09T10:28:08  build(tests): support stdin as a source
 2025-08-23T17:45:15  feat: do or do not, there is no try/except
+2025-09-07T12:02:22  refactor(core): simplify the walker
