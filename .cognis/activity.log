@@ -26,3 +26,4 @@
 2025-09-07T12:02:22  refactor(core): simplify the walker
 2025-10-09T19:19:29  style(report): add --fail-on threshold handling
 2025-10-23T14:36:36  build(docs): document the config keys
+2025-11-07T09:53:43  fix(scoring): bump the dev toolchain
