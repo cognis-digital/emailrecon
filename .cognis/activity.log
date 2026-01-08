@@ -29,3 +29,4 @@
 2025-11-07T09:53:43  fix(scoring): bump the dev toolchain
 2025-11-22T16:10:50  test: add edge case
 2025-12-07T11:27:57  test(tests): add usage examples to help
+2026-01-08T18:44:04  build(scan): pin the test dependencies
