@@ -35,3 +35,4 @@
 2026-02-21T15:35:25  feat: do or do not, there is no try/except
 2026-03-08T10:52:32  ci(scoring): respect .gitignore when walking
 2026-04-09T17:09:39  fix(parser): wire the MCP tool schema
+2026-04-23T12:26:46  docs(config): lower memory on big inputs
