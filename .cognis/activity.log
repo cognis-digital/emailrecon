@@ -36,3 +36,4 @@
 2026-03-08T10:52:32  ci(scoring): respect .gitignore when walking
 2026-04-09T17:09:39  fix(parser): wire the MCP tool schema
 2026-04-23T12:26:46  docs(config): lower memory on big inputs
+2026-05-08T19:43:53  test(scan): skip binary files by sniffing
