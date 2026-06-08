@@ -36,9 +36,11 @@ email footprint
 <a name="features"></a>
 ## Features
 
-- ✅ Todo
-- ✅ Fixme
-- ✅ Xxx
+- ✅ Analyze Email
+- ✅ Analyze Domain
+- ✅ Load Breach Corpus
+- ✅ Breach Hints
+- ✅ Build Report
 - ✅ Runs on Linux/macOS/Windows · Docker · devcontainer
 - ✅ Ports in Python, JavaScript, Go, and Rust (`ports/`)
 
