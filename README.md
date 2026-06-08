@@ -124,7 +124,17 @@ Pipes into your stack: **SARIF** for code-scanning, **JSON** for anything, an **
 <div align="right"><a href="#top">↑ back to top</a></div>
 
 <a name="install-anywhere"></a>
-## Install anywhere
+## Install — every way, every platform
+
+```bash
+pip install "git+https://github.com/cognis-digital/emailrecon.git"    # pip (works today)
+pipx install "git+https://github.com/cognis-digital/emailrecon.git"   # isolated CLI
+uv tool install "git+https://github.com/cognis-digital/emailrecon.git" # uv
+pip install cognis-emailrecon                                          # PyPI (when published)
+docker run --rm ghcr.io/cognis-digital/emailrecon:latest --help        # Docker
+brew install cognis-digital/tap/emailrecon                             # Homebrew tap
+curl -fsSL https://raw.githubusercontent.com/cognis-digital/emailrecon/main/install.sh | sh
+```
 
 | Linux | macOS | Windows | Docker | Cloud |
 |---|---|---|---|---|
