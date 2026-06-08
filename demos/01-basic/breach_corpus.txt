@@ -1,0 +1,9 @@
+# Offline breach corpus for the basic demo.
+# One entry per line: a domain or a full email address (lowercased).
+# Lines starting with '#' are comments.
+#
+# These are illustrative sample entries only.
+mailinator.com
+example-breached.com
+joe@old-leak.example
+guerrillamail.com
