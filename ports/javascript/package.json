@@ -1,0 +1,10 @@
+{
+  "name": "@cognis/emailrecon",
+  "version": "0.2.0",
+  "description": "JavaScript port of emailrecon (Cognis Neural Suite)",
+  "bin": {
+    "emailrecon": "index.js"
+  },
+  "license": "LicenseRef-COCL-1.0",
+  "type": "module"
+}
