@@ -16,7 +16,7 @@
 </div>
 
 ```bash
-pip install cognis-emailrecon
+pip install "git+https://github.com/cognis-digital/emailrecon.git"
 emailrecon scan .            # → prioritized findings in seconds
 ```
 
@@ -50,7 +50,7 @@ email footprint
 ## Quick start
 
 ```bash
-pip install cognis-emailrecon
+pip install "git+https://github.com/cognis-digital/emailrecon.git"
 emailrecon --version
 emailrecon scan .                       # scan current project
 emailrecon scan . --format json         # machine-readable
