@@ -20,6 +20,12 @@ pip install "git+https://github.com/cognis-digital/emailrecon.git"
 emailrecon scan .            # → prioritized findings in seconds
 ```
 
+<!-- cognis:layman:start -->
+## What is this?
+
+emailrecon is a command-line tool that tells you everything useful about an email address without sending any messages or contacting the owner. Give it an address and it checks whether the address is real, flags if the domain has disposable or role-based characteristics (like "admin@" or "mailinator.com"), and inspects the domain's email-security settings (SPF, DMARC, MX records) to reveal how well it is protected against spoofing. It can also compare the address against an offline list of known data-breach domains you supply. It is aimed at security researchers, IT teams, and developers who need a fast, self-hostable email intelligence check that runs entirely on their own machine with no cloud account required.
+<!-- cognis:layman:end -->
+
 ## Contents
 
 - [Why emailrecon?](#why) · [Features](#features) · [Quick start](#quick-start) · [Example](#example) · [Architecture](#architecture) · [AI stack](#ai-stack) · [How it compares](#how-it-compares) · [Integrations](#integrations) · [Install anywhere](#install-anywhere) · [Related](#related) · [Contributing](#contributing)
@@ -47,6 +53,42 @@ email footprint
 <div align="right"><a href="#top">↑ back to top</a></div>
 
 <a name="quick-start"></a>
+<!-- cognis:install:start -->
+## Install
+
+`emailrecon` is source-available (not published to PyPI) — every method below installs
+straight from GitHub. Pick whichever you prefer; the one-line scripts auto-detect
+the best tool available on your machine.
+
+**One-liner (Linux / macOS):**
+```sh
+curl -fsSL https://raw.githubusercontent.com/cognis-digital/emailrecon/HEAD/install.sh | sh
+```
+
+**One-liner (Windows PowerShell):**
+```powershell
+irm https://raw.githubusercontent.com/cognis-digital/emailrecon/HEAD/install.ps1 | iex
+```
+
+**Or install manually — any one of:**
+```sh
+pipx install "git+https://github.com/cognis-digital/emailrecon.git"     # isolated (recommended)
+uv tool install "git+https://github.com/cognis-digital/emailrecon.git"  # uv
+pip install "git+https://github.com/cognis-digital/emailrecon.git"      # pip
+```
+
+**From source:**
+```sh
+git clone https://github.com/cognis-digital/emailrecon.git
+cd emailrecon && pip install .
+```
+
+Then run:
+```sh
+emailrecon --help
+```
+<!-- cognis:install:end -->
+
 ## Quick start
 
 ```bash
