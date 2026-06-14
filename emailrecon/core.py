@@ -240,11 +240,16 @@ def _dns_query(name: str, qtype: int, timeout: float) -> list[str]:
     import random
 
     server = os.environ.get("EMAILRECON_DNS", "1.1.1.1")
+    if not name or not name.strip("."):
+        raise ValueError(f"invalid DNS name: {name!r}")
     txn = random.randint(0, 0xFFFF)
     header = struct.pack(">HHHHHH", txn, 0x0100, 1, 0, 0, 0)
+    parts = [p for p in name.rstrip(".").split(".") if p]
+    if not parts:
+        raise ValueError(f"invalid DNS name: {name!r}")
     qname = b"".join(
-        struct.pack("B", len(part)) + part.encode("ascii")
-        for part in name.rstrip(".").split(".")
+        struct.pack("B", len(part)) + part.encode("ascii", "replace")
+        for part in parts
     ) + b"\x00"
     question = qname + struct.pack(">HH", qtype, 1)
     packet = header + question
@@ -334,6 +339,9 @@ def analyze_domain(domain: str, do_lookups: bool = True, timeout: float = 3.0) -
     if not domain or not do_lookups:
         return posture
 
+    # Clamp timeout so socket.settimeout never receives a non-positive value.
+    timeout = max(timeout, 0.1)
+
     try:
         mx = _query_mx(domain, timeout)
         txt_root = _query_txt(domain, timeout)
@@ -387,6 +395,7 @@ def load_breach_corpus(path: Optional[str]) -> set[str]:
 
     Lines beginning with '#' are comments. Entries are lowercased. Missing
     file yields an empty corpus (no error) so the tool stays offline-friendly.
+    Raises ``PermissionError`` verbatim so callers can surface the problem.
     """
     corpus: set[str] = set()
     if not path:
@@ -397,8 +406,13 @@ def load_breach_corpus(path: Optional[str]) -> set[str]:
                 line = line.strip().lower()
                 if line and not line.startswith("#"):
                     corpus.add(line)
-    except OSError:
-        pass
+    except FileNotFoundError:
+        pass  # missing corpus is allowed; callers treat it as empty
+    except PermissionError:
+        raise  # caller should know it cannot read the file
+    except (OSError, UnicodeDecodeError) as exc:
+        import warnings
+        warnings.warn(f"emailrecon: could not read breach corpus {path!r}: {exc}", stacklevel=2)
     return corpus
 
 
@@ -426,6 +440,16 @@ def build_report(
     tool: str = "emailrecon",
     version: str = "1.0.0",
 ) -> ReconReport:
+    if not isinstance(raw_email, str):
+        raise TypeError(f"email must be a str, got {type(raw_email).__name__!r}")
+    # Ensure timeout is a usable positive float; clamp silently so
+    # callers that pass marginal values still get a result.
+    try:
+        timeout = float(timeout)
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"timeout must be a number, got {timeout!r}") from exc
+    if timeout <= 0:
+        raise ValueError(f"timeout must be positive, got {timeout}")
     email = analyze_email(raw_email)
     domain = analyze_domain(email.domain, do_lookups=do_lookups, timeout=timeout) if email.valid_syntax else DomainPosture(domain=email.domain)
     corpus = load_breach_corpus(breach_corpus_path)

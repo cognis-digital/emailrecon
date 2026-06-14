@@ -99,6 +99,25 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     args = parser.parse_args(argv)
 
     if args.command == "scan":
+        # Validate --timeout before building the report so the user gets a
+        # clear message rather than an internal ValueError traceback.
+        if args.timeout <= 0:
+            print(
+                f"error: --timeout must be positive, got {args.timeout}",
+                file=sys.stderr,
+            )
+            return 2
+
+        # Validate --breach-corpus path exists when supplied.
+        if args.breach_corpus is not None:
+            import os as _os
+            if not _os.path.isfile(args.breach_corpus):
+                print(
+                    f"error: breach corpus not found: {args.breach_corpus}",
+                    file=sys.stderr,
+                )
+                return 2
+
         try:
             report = build_report(
                 args.email,
@@ -108,6 +127,12 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 tool=TOOL_NAME,
                 version=TOOL_VERSION,
             )
+        except PermissionError as exc:
+            print(f"error: permission denied reading file: {exc}", file=sys.stderr)
+            return 1
+        except (ValueError, TypeError) as exc:
+            print(f"error: {exc}", file=sys.stderr)
+            return 2
         except Exception as exc:  # pragma: no cover - defensive
             print(f"error: {exc}", file=sys.stderr)
             return 1

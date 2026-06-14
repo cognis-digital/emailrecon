@@ -128,5 +128,119 @@ class TestCli(unittest.TestCase):
         self.assertEqual(code, 3)  # EMAIL_INVALID is HIGH
 
 
+class TestHardenedEdgeCases(unittest.TestCase):
+    """Tests for hardening: input validation, error handling, and edge cases."""
+
+    # ------------------------------------------------------------------
+    # CLI: --timeout validation
+    # ------------------------------------------------------------------
+
+    def _run(self, argv):
+        out, err = io.StringIO(), io.StringIO()
+        old_out, old_err = sys.stdout, sys.stderr
+        sys.stdout, sys.stderr = out, err
+        try:
+            code = main(argv)
+        finally:
+            sys.stdout, sys.stderr = old_out, old_err
+        return code, out.getvalue(), err.getvalue()
+
+    def test_cli_negative_timeout_returns_2(self):
+        code, _out, err = self._run(["scan", "user@example.com", "--no-dns", "--timeout", "-1"])
+        self.assertEqual(code, 2)
+        self.assertIn("timeout", err.lower())
+
+    def test_cli_zero_timeout_returns_2(self):
+        code, _out, err = self._run(["scan", "user@example.com", "--no-dns", "--timeout", "0"])
+        self.assertEqual(code, 2)
+        self.assertIn("timeout", err.lower())
+
+    # ------------------------------------------------------------------
+    # CLI: --breach-corpus path validation
+    # ------------------------------------------------------------------
+
+    def test_cli_missing_breach_corpus_returns_2(self):
+        code, _out, err = self._run(
+            ["scan", "user@example.com", "--no-dns", "--breach-corpus", "/nonexistent/corpus.txt"]
+        )
+        self.assertEqual(code, 2)
+        self.assertIn("breach corpus", err.lower())
+
+    def test_cli_valid_breach_corpus_works(self):
+        with tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False, encoding="utf-8") as fh:
+            fh.write("example.com\n")
+            path = fh.name
+        try:
+            code, _out, err = self._run(
+                ["scan", "user@example.com", "--no-dns", "--breach-corpus", path]
+            )
+            # findings present (BREACH_HINT + DNS_NOT_CHECKED) -> exit 3
+            self.assertEqual(code, 3)
+        finally:
+            os.unlink(path)
+
+    # ------------------------------------------------------------------
+    # core: build_report timeout validation
+    # ------------------------------------------------------------------
+
+    def test_build_report_negative_timeout_raises(self):
+        with self.assertRaises(ValueError):
+            build_report("user@example.com", do_lookups=False, timeout=-5.0)
+
+    def test_build_report_zero_timeout_raises(self):
+        with self.assertRaises(ValueError):
+            build_report("user@example.com", do_lookups=False, timeout=0)
+
+    # ------------------------------------------------------------------
+    # core: empty / whitespace-only email
+    # ------------------------------------------------------------------
+
+    def test_empty_email_is_invalid(self):
+        e = analyze_email("")
+        self.assertFalse(e.valid_syntax)
+
+    def test_whitespace_email_is_invalid(self):
+        e = analyze_email("   ")
+        self.assertFalse(e.valid_syntax)
+
+    def test_none_like_string_is_invalid(self):
+        # Passing None-ish strings — must not raise
+        for bad in ("None", "null", "undefined"):
+            self.assertFalse(analyze_email(bad).valid_syntax)
+
+    # ------------------------------------------------------------------
+    # core: breach corpus edge cases
+    # ------------------------------------------------------------------
+
+    def test_empty_breach_corpus_file_yields_empty_set(self):
+        with tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False, encoding="utf-8") as fh:
+            fh.write("")  # empty file
+            path = fh.name
+        try:
+            corpus = load_breach_corpus(path)
+            self.assertEqual(corpus, set())
+        finally:
+            os.unlink(path)
+
+    def test_breach_corpus_comments_only_yields_empty_set(self):
+        with tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False, encoding="utf-8") as fh:
+            fh.write("# all lines are comments\n# another comment\n")
+            path = fh.name
+        try:
+            corpus = load_breach_corpus(path)
+            self.assertEqual(corpus, set())
+        finally:
+            os.unlink(path)
+
+    # ------------------------------------------------------------------
+    # mcp_server: module imports cleanly (broken imports were a real bug)
+    # ------------------------------------------------------------------
+
+    def test_mcp_server_importable(self):
+        import importlib
+        mod = importlib.import_module("emailrecon.mcp_server")
+        self.assertTrue(callable(getattr(mod, "serve", None)))
+
+
 if __name__ == "__main__":
     unittest.main()
