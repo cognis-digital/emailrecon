@@ -34,3 +34,6 @@ emailrecon = "emailrecon.cli:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["emailrecon"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
