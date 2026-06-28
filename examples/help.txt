@@ -1,0 +1,13 @@
+$ emailrecon-emit --help
+
+usage: emailrecon [-h] [--version] {scan} ...
+
+Defensive email OSINT / posture aggregator (authorized use only).
+
+positional arguments:
+  {scan}
+    scan      Analyze an email address and its domain posture.
+
+options:
+  -h, --help  show this help message and exit
+  --version   show program's version number and exit

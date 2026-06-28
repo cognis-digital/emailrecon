@@ -42,6 +42,36 @@ emailrecon scan .            # → prioritized findings in seconds
 
 
 
+
+<!-- cognis:example:start -->
+## 🔎 Example output
+
+Real, reproducible output from the tool — runs offline:
+
+```console
+$ emailrecon-emit --version
+emailrecon 0.1.0
+```
+
+```console
+$ emailrecon-emit --help
+usage: emailrecon [-h] [--version] {scan} ...
+
+Defensive email OSINT / posture aggregator (authorized use only).
+
+positional arguments:
+  {scan}
+    scan      Analyze an email address and its domain posture.
+
+options:
+  -h, --help  show this help message and exit
+  --version   show program's version number and exit
+```
+
+> Blocks above are real `emailrecon` output — reproduce them from a clone.
+
+<!-- cognis:example:end -->
+
 ## Usage — step by step
 
 1. **Install** the CLI:
